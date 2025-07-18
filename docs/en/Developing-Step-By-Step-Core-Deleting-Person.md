@@ -69,16 +69,16 @@ Now, adding code to delete person (to Index.js):
 ```javascript
 var _personService = abp.services.app.person;
 
-$('#AllPeopleList button.delete-person').click(function (e) {
+$('#AllPeopleList').on('click', 'button.delete-person', function (e) {
     e.preventDefault();
 
     var $listItem = $(this).closest('.list-group-item');
     var personId = $listItem.attr('data-person-id');
 
     abp.message.confirm(
-        app.localize('AreYouSureToDeleteThePerson'),
-        function(isConfirmed) {
-            if (isConfirmed) {
+        app.localize('AreYouSureToDeleteThePerson')).then(function (isConfirmed) {
+            if (isConfirmed)
+            {
                 _personService.deletePerson({
                     id: personId
                 }).done(function () {
@@ -86,8 +86,7 @@ $('#AllPeopleList button.delete-person').click(function (e) {
                     $listItem.remove();
                 });
             }
-        }
-    );
+        });
 });
 ```
 
